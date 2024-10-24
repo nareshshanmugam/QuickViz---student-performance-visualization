@@ -1,0 +1,25 @@
+<!-- visualization_merged.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Merged Visualization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Merged Visualization</h1>
+        <img src="{{ chart_path }}" alt="Chart" class="img-fluid">
+        
+        <!-- Participants Data Section -->
+        <div class="mt-5">
+            <h5>Participants Data:</h5>
+            <ul class="list-group">
+                {% for participant in participants %}
+                    <li class="list-group-item">{{ participant }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

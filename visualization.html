@@ -1,0 +1,29 @@
+<!-- visualization.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualization</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>  
+    <div class="container mt-4">
+        <h1>Visualization</h1>
+        <img src="{{ chart_path }}" alt="Chart" class="img-fluid">
+        
+        <!-- Participants Data Section -->
+        <div class="mt-5">
+            <h5>Participants Data:</h5>
+            <ul class="list-group">
+                {% for participant, score in participant_data.items() %}
+                    <li class="list-group-item">{{ participant }}: {{ score }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Back to Home Button -->
+        <div class="mt-4">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>

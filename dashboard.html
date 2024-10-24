@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-container animate__animated animate__fadeIn">
+    <h1 class="text-center mb-4" style="font-weight: 600;">QuickViz</h1>
+    <!-- Logout Button -->
+    <div class="text-right mt-4">
+        <a href="{{ url_for('logout') }}" class="btn btn-danger logout-btn" style="width: 150px; border-radius: 5px;">Logout</a>
+    </div>
+
+    <!-- Instructions Section -->
+    <div class="instructions mb-4">
+        <h4 style="font-weight: 600;">Instructions for Using the QuickViz:</h4>
+        <ul>
+            <li><strong>Upload CSV Files:</strong> Click on the "Upload Files" button and select one or more CSV files from your device.</li>
+            <li><strong>Select Columns:</strong> After uploading, choose the columns you wish to visualize from the list of uploaded files.</li>
+            <li><strong>Choose Plot Type:</strong> Select the type of plot (Bar, Line, Pie, Scatter, or Heatmap) for the visualization.</li>
+            <li><strong>Merge Visualization:</strong> If you want to visualize data from multiple files, use the "Select columns for merged visualization" section and choose the appropriate columns before clicking "Visualize Merged."</li>
+            <li><strong>Logout:</strong> You can log out anytime using the "Logout" button at the top right of the dashboard.</li>
+        </ul>
+    </div>
+    
+    <h3 class="text-center mb-4" style="font-weight: 600;">Dashboard</h3>
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                {{ messages[0][1] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    
+</div>
+    
+<!-- File Upload Section -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm upload-card" style="border-radius: 10px;">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="icon text-primary me-3">
+                        <i class="fas fa-upload fa-2x"></i>
+                    </div>
+                    <div>
+                        <h5 class="card-title">Upload Files</h5>
+                        <p class="text-muted">Please upload your CSV files here</p>
+                    </div>
+                </div>
+                <!-- Merged Visualization Section -->
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group mb-3">
+                        <label for="files" class="form-label">Select CSV files:</label>
+                        <input type="file" class="form-control" id="files" name="files" multiple accept=".csv" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block upload-btn">Upload</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="merged-visualization-section">
+    <h3 class="text-center" style="font-weight: 500;">Select columns for merged visualization:</h3>
+    <form method="POST" action="{{ url_for('visualize_merged') }}">
+        <select name="merged_columns" multiple class="form-select animated-select">
+            {% for column in merged_columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
+        <input type="hidden" name="plot_type" value="your_plot_type_here"> <!-- Add your selected plot type -->
+        <button type="submit" class="btn btn-primary mt-2" style="width: 100%;">Visualize Merged</button>
+    </form>
+</div>
+
+<!-- Display Uploaded Files and Their Columns -->
+<div class="row">
+    {% for filename, columns in columns_info.items() %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm data-card" style="border-radius: 10px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ filename }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Columns:</h6>
+                   
+                    <form method="POST" action="{{ url_for('visualize') }}">
+                        <input type="hidden" name="selected_file" value="{{ filename }}">
+                        <div class="form-group mb-3">
+                            <label for="columns" class="form-label">Select Columns:</label>
+                            <select name="columns" class="form-control animated-select" multiple required>
+                                {% for column in columns %}
+                                    <option value="{{ column }}">{{ column }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="plot_type" class="form-label">Select Plot Type:</label>
+                            <select name="plot_type" class="form-control" required>
+                                <option value="bar">Bar</option>
+                                <option value="line">Line</option>
+                                <option value="pie">Pie</option>
+                                <option value="scatter">Scatter</option>
+                                <option value="heatmap">Heatmap</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block visualize-btn">Visualize</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('select[name="merged_columns"]').on('change', function() {
+        const selectedCount = $(this).find(':selected').length;
+        if (selectedCount > 0) {
+            $(this).css('border-color', '#28a745'); // Green border on selection
+        } else {
+            $(this).css('border-color', '#dc3545'); // Red border if nothing is selected
+        }
+    });
+
+    // Show a tooltip when hovering over the button
+    $('button').hover(function() {
+        $(this).attr('title', 'Click to visualize the selected columns!');
+    });
+});
+
+// Adding animations for button hover
+$('.upload-btn, .visualize-btn').hover(
+    function() {
+        $(this).addClass('animated bounce');
+    }, function() {
+        $(this).removeClass('animated bounce');
+    }
+);
+
+// Animate cards on hover
+$('.upload-card, .data-card').hover(
+    function() {
+        $(this).addClass('animated zoomIn');
+    }, function() {
+        $(this).removeClass('animated zoomIn');
+    }
+);
+</script>
+
+<style>
+
+
+
+/* Additional CSS Styles for Animation */
+.upload-btn, .visualize-btn {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.upload-btn:hover, .visualize-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.animated-select {
+    transition: border-color 0.3s;
+}
+
+.data-card {
+    transition: transform 0.3s;
+}
+
+.data-card:hover {
+    transform: scale(1.02);
+}
+
+
+/* Style for logout button */
+.logout-btn {
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #dc3545;
+    transform: scale(1.05);
+}
+</style>
+
+{% endblock %}

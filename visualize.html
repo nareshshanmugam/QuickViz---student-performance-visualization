@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Visualization</h1>
+    
+    <!-- Display the chart -->
+    <canvas id="scoreChart"></canvas>
+
+    <script>
+        var ctx = document.getElementById('scoreChart').getContext('2d');
+
+        // Pass participant names and scores from the server-side to JavaScript
+        var participants = {{ participant_data['participants'] | safe }};
+        var scores = {{ participant_data['scores'] | safe }};
+
+        var scoreChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: participants,
+                datasets: [{
+                    label: 'Scores',
+                    data: scores,
+                    backgroundColor: 'skyblue',
+                    borderColor: 'blue',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        enabled: true,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;  // Participant name
+                            },
+                            label: function(tooltipItem) {
+                                return 'Score: ' + tooltipItem.raw;  // Show the score
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

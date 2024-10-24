@@ -1,4 +1,4 @@
-# QuickViz1
+# QuickViz
 QuickViz1: Data Visualization and Participant Analysis
 
 

@@ -1,10 +1,7 @@
 # QuickViz1
-
 QuickViz1: Data Visualization and Participant Analysis
 QuickViz1 is a powerful web-based tool designed to simplify data visualization and participant analysis. This application allows users to upload multiple CSV files, merge them seamlessly, and generate insightful visualizations from the selected data. Along with visual analytics, the system also extracts and displays participant information in a user-friendly format.
-
 This project is ideal for those who need to quickly analyze large datasets, generate charts, and gain insights without the need for manual data merging or visualization using separate tools.
-
 Table of Contents
 Features
 Technologies

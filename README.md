@@ -2,22 +2,40 @@
 Welcome to QuickViz! QuickViz is a web-based, interactive platform that simplifies data analysis and visualization, tailored specifically for student performance data. With an intuitive interface, educators and administrators can effortlessly explore datasets, uncover insights, and make data-driven decisions.
 
 🌟 Key Features
+
 📂 CSV Upload & Merge: Upload multiple CSV files and let QuickViz handle merging and formatting, saving you valuable time.
+
 🔍 Custom Column Selection: Target your analysis by selecting specific columns from merged datasets.
+
 📈 Diverse Plot Options: Instantly generate bar charts, line graphs, pie charts, and more.
+
 👥 Participant Data Extraction: View and analyze participant details with ease.
+
 🔒 Secure Access: User authentication ensures that only registered users can access the data.
+
 💡 User-friendly Interface: Responsive design with Bootstrap for seamless usage across devices.
+
+
 🛠️ Tech Stack
+
 Technology	Purpose
+
 Python	Backend development
+
 Flask	Web framework for API & app structure
+
 HTML/CSS	Frontend development
+
 Bootstrap	Responsive UI design
+
 Pandas	Data processing and analysis
+
 Matplotlib	Data visualization
+
 Seaborn	Advanced styling for visualizations
+
 Flask-Login	Authentication and session management
+
 🚀 Getting Started
 1. Prerequisites
 Python 3.x
